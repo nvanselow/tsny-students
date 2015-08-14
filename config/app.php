@@ -140,9 +140,14 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
-        App\Providers\EventServiceProvider::class,
-        App\Providers\RouteServiceProvider::class,
+        Tsny\Providers\AppServiceProvider::class,
+        Tsny\Providers\EventServiceProvider::class,
+        Tsny\Providers\RouteServiceProvider::class,
+
+        /*
+         * Vendor Service Providers...
+         */
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
 

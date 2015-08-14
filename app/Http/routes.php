@@ -12,5 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
+});
+
+Route::group(['prefix' => 'api'], function(){
+
+    Route::get('schools', function(){
+        return \Tsny\Models\School::all(['id','name'])->toJson();
+    });
+
 });

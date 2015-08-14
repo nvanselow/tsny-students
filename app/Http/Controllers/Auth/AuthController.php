@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Tsny\Http\Controllers\Auth;
 
-use App\User;
+use Tsny\User;
 use Validator;
-use App\Http\Controllers\Controller;
+use Tsny\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
