@@ -62319,7 +62319,13 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/* mixin definition ;
 (function () {
 
     'use strict';
-    angular.module('TsnyApp', ['ngMaterial', 'TsnyControllers', 'TsnyConstants'])
+
+    angular.module('TsnyServices', []);
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyApp', ['ngMaterial', 'TsnyControllers', 'TsnyConstants', 'TsnyServices'])
         .config(function($mdThemingProvider) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue')
@@ -62340,15 +62346,81 @@ angular.module("material.core").constant("$MD_THEME_CSS", "/* mixin definition ;
 (function () {
 
     'use strict';
-    angular.module('TsnyControllers')
-        .controller('SchoolsController', function(){
-            var ctrl = this;
+    angular.module('TsnyServices')
+        .service('School', function($http, $q){
 
-            ctrl.user_info = {
-                current_school: {"id":2,"name":"Chicago"}
+            var school = {};
+
+            school.schools = null;
+
+            school.all = function(refresh){
+                var deferred = $q.defer();
+
+                if(!refresh && school.schools){
+                    console.log('schools already exist');
+                    deferred.resolve(school.schools);
+                    return deferred.promise;
+                }
+
+                $http.get('api/schools')
+                    .then(function(result){
+                        //Success
+                        school.schools = result.data;
+                        deferred.resolve(result.data);
+                    }, function(result){
+                        //Error
+                        console.log('Error!');
+                        console.log(result);
+                        school.schools = [];
+                        deferred.reject([]);
+                    });
+
+                console.log('got schools from http');
+
+                return deferred.promise;
             };
 
-            ctrl.schools = [{"id":1,"name":"Boston"},{"id":2,"name":"Chicago"},{"id":3,"name":"NYC"},{"id":4,"name":"DC"},{"id":5,"name":"Los Angeles"}];
+            return school;
+
+        });
+
+}());
+(function () {
+
+    'use strict';
+
+    angular.module('TsnyServices')
+        .service('UserInfo', function(){
+            var user_info = {};
+
+            user_info.current_school = {"id":2,"name":"Chicago"};
+
+            return user_info;
+        })
+
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyControllers')
+        .controller('SchoolsController', function(UserInfo, School){
+            var ctrl = this;
+
+            ctrl.user_info = UserInfo;
+
+            ctrl.loading = true;
+
+            //ctrl.schools = [{"id":1,"name":"Boston"},{"id":2,"name":"Chicago"},{"id":3,"name":"NYC"},{"id":4,"name":"DC"},{"id":5,"name":"Los Angeles"}];
+
+            ctrl.schools = [];
+
+
+            School.all().then(function(result){
+                    ctrl.schools = result;
+                })
+                .finally(function(){
+                    ctrl.loading = false;
+                });
 
             ctrl.school_changed = function(){
                 ctrl.user_info.current_school.name = _.find(ctrl.schools, function(school){

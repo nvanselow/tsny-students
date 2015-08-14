@@ -1,7 +1,7 @@
 (function () {
 
     'use strict';
-    angular.module('TsnyApp', ['ngMaterial', 'TsnyControllers', 'TsnyConstants'])
+    angular.module('TsnyApp', ['ngMaterial', 'TsnyControllers', 'TsnyConstants', 'TsnyServices'])
         .config(function($mdThemingProvider) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue')
