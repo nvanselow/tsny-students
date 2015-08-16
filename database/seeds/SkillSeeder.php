@@ -21,7 +21,7 @@ class SkillSeeder extends Seeder
             'user_id' => rand(1, 4),
             'name' => $faker->word,
             'proficiency' => rand(0,3),
-            'current' => $faker->boolean(20),
+            'current' => true,
             'note' => $faker->sentence(3)
         ]);
 
@@ -30,7 +30,7 @@ class SkillSeeder extends Seeder
             'user_id' => rand(1, 4),
             'name' => $faker->word,
             'proficiency' => rand(0,3),
-            'current' => $faker->boolean(20),
+            'current' => false,
             'note' => $faker->sentence(3)
         ]);
 

@@ -1,0 +1,47 @@
+<md-content layout-padding>
+            <span ng-if="SchoolsCtrl.loading_students">
+                <md-progress-circular md-mode="indeterminate" class="md-accent" md-diameter="35"></md-progress-circular>
+                Loading students...
+            </span>
+
+    <md-button class="md-raised md-accent" href="#/schools/{{SchoolsCtrl.user_info.current_school.id}}/add-student"><i class="fa fa-plus-square"></i> Add Student</md-button>
+    <div ng-repeat="student in SchoolsCtrl.School.students track by student.id">
+        <md-card>
+            <md-card-content>
+                <h2 class="md-title">{{::student.first_name}} {{::student.last_name}} ({{::student.nickname}})</h2>
+
+                <h4>Current Skills</h4>
+                <md-chips ng-model="student.summary.current_skills" readonly="true">
+                    <md-chip-template>
+                        {{$chip.name}}
+                    </md-chip-template>
+                </md-chips>
+                <p ng-if="!student.summary.current_skills.length">No current skills.</p>
+
+                <h4>Current Goals:</h4>
+                <ul>
+                    <li ng-repeat="goal in student.summary.current_goals">
+                        {{goal.description}}
+                    </li>
+                </ul>
+                <p ng-if="!student.summary.current_goals.length">
+                    No current goals.
+                </p>
+
+                <h4>Most Recent Notes: </h4>
+                <p ng-repeat="note in student.summary.most_recent_notes">{{$index + 1}} - {{note.note}}</p>
+                <p ng-if="!student.summary.most_recent_notes.length">
+                    No recent notes.
+                </p>
+            </md-card-content>
+
+            <div class="md-actions" layout="row" layout-align="end center">
+                <md-button>View Notes</md-button>
+                <md-button>Add Note</md-button>
+            </div>
+        </md-card>
+    </div>
+
+
+</md-content>
+</md-content>

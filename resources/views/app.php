@@ -10,7 +10,7 @@
                     <md-input-container ng-if="!SchoolsCtrl.loading">
                         <label>Current School: </label>
                         <md-select ng-model="SchoolsCtrl.user_info.current_school.id" ng-change="SchoolsCtrl.school_changed()">
-                            <md-option ng-value="school.id" ng-repeat="school in SchoolsCtrl.schools track by school.id">
+                            <md-option ng-value="school.id" ng-repeat="school in SchoolsCtrl.School.schools track by school.id">
                                 {{ school.name }}
                             </md-option>
                         </md-select>
@@ -22,8 +22,7 @@
             </div>
 
         </md-toolbar>
-        <md-content layout-padding>
-            <div class="title">TSNY Student Notes</div>
-        </md-content>
+
+        <div ui-view></div>
     </div>
 </div>

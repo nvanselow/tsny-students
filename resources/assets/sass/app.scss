@@ -1,2 +1,20 @@
 // @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+md-card h4 {
+  margin-bottom: 2px;
+}
+
+md-card ul {
+  margin-top: 0;
+  padding-left: 20px;
+}
+
+md-card p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.card-fixed-height {
+  height: 400px;
+}
+

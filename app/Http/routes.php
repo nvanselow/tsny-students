@@ -18,7 +18,15 @@ Route::get('/', function () {
 Route::group(['prefix' => 'api'], function(){
 
     Route::get('schools', function(){
-        return \Tsny\Models\School::all(['id','name'])->toJson();
+        return Response::json(\Tsny\Models\School::all(['id','name']));
+    });
+
+    Route::get('schools/{school_id}/students', function($school_id){
+        return Response::json(\Tsny\Models\School::find($school_id)->students());
+    });
+
+    Route::get('schools/{school_id}/students/summaries', function($school_id){
+        return Response::json(\Tsny\Models\School::find($school_id)->studentsWithSummary());
     });
 
 });

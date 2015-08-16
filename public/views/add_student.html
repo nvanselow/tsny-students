@@ -1,0 +1,35 @@
+<h2>Add a Student</h2>
+<md-content layout-padding>
+    <form name="studentForm" ng-submit="StudentCtrl.addStudent()">
+        <div layout layout-sm="column">
+            <h4>Required Section:</h4>
+            <md-input-container flex>
+                <label>First Name</label>
+                <input type="text" ng-model="StudentCtrl.student.first_name">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Last Name</label>
+                <input type="text" ng-model="StudentCtrl.student.last_name">
+            </md-input-container>
+        </div>
+        <div layout layout-sm="column" layout-wrap>
+            <h4>Optional Section:</h4>
+            <md-input-container flex>
+                <label>Nickname</label>
+                <input type="text" ng-model="StudentCtrl.student.nickname">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Email</label>
+                <input type="email" ng-model="StudentCtrl.student.email">
+            </md-input-container>
+            <md-input-container>
+                <label>Home School</label>
+                <md-select ng-model="StudentCtrl.student.primary_school">
+                    <md-option ng-repeat="school in StudentCtrl.schools" value="{{school.id}}">{{school.name}}</md-option>
+                </md-select>
+            </md-input-container>
+        </div>
+        <md-button type="submit" class="md-raised md-primary">Add Student</md-button>
+        <md-button type="button" ng-click="StudentCtrl.cancel()">Cancel</md-button>
+    </form>
+</md-content>
