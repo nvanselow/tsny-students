@@ -1,7 +1,7 @@
 (function () {
 
     'use strict';
-    angular.module('TsnyApp', ['ngMaterial', 'ui.router', 'TsnyControllers', 'TsnyConstants', 'TsnyServices'])
+    angular.module('TsnyApp', ['ngMaterial', 'ui.router', 'ngMessages', 'TsnyControllers', 'TsnyConstants', 'TsnyServices'])
         .config(function($mdThemingProvider, $urlRouterProvider, $stateProvider) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue')

@@ -29,4 +29,16 @@ Route::group(['prefix' => 'api'], function(){
         return Response::json(\Tsny\Models\School::find($school_id)->studentsWithSummary());
     });
 
+    Route::post('student', function(){
+        $student = Input::get('student', ['schools' => []]);
+
+        $new_student = \Tsny\Models\Student::create(array_except($student, 'schools'));
+
+        foreach($student['schools'] as $school){
+            $new_student->addSchool($school);
+        }
+
+        return Response::json(['message' => 'Student added!']);
+    });
+
 });

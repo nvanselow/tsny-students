@@ -5,11 +5,19 @@
             <h4>Required Section:</h4>
             <md-input-container flex>
                 <label>First Name</label>
-                <input type="text" ng-model="StudentCtrl.student.first_name">
+                <input type="text" name="first_name" ng-model="StudentCtrl.student.first_name" ng-required="true" ng-maxlength="255">
+                <div ng-messages="studentForm.first_name.$error" ng-show="studentForm.first_name.$touched">
+                    <div ng-message="required">A first name is required.</div>
+                    <div ng-message="md-maxlength">That name is too long!</div>
+                </div>
             </md-input-container>
             <md-input-container flex>
                 <label>Last Name</label>
-                <input type="text" ng-model="StudentCtrl.student.last_name">
+                <input type="text" name="last_name" ng-model="StudentCtrl.student.last_name" ng-required="true" ng-maxlength="255">
+                <div ng-messages="studentForm.last_name.$error" ng-show="studentForm.last_name.$touched">
+                    <div ng-message="required">A last name is required.</div>
+                    <div ng-message="md-maxlength">That name is too long!</div>
+                </div>
             </md-input-container>
         </div>
         <div layout layout-sm="column" layout-wrap>
@@ -20,7 +28,10 @@
             </md-input-container>
             <md-input-container flex>
                 <label>Email</label>
-                <input type="email" ng-model="StudentCtrl.student.email">
+                <input type="email" name="student_email" ng-model="StudentCtrl.student.email">
+                <div ng-messages="studentForm.student_email.$error" ng-show="studentForm.student_email.$touched">
+                    <div ng-message="email">Email is optional but must be a valid email.</div>
+                </div>
             </md-input-container>
             <md-input-container>
                 <label>Home School</label>
@@ -29,7 +40,15 @@
                 </md-select>
             </md-input-container>
         </div>
-        <md-button type="submit" class="md-raised md-primary">Add Student</md-button>
-        <md-button type="button" ng-click="StudentCtrl.cancel()">Cancel</md-button>
+        <div layout-gt-md="row" layout-sm="column" layout-md="column" layout-align-gt-md="start center">
+            <div ng-repeat="school in StudentCtrl.schools" flex>
+                <md-checkbox class="md-secondary" ng-click="StudentCtrl.toggle_school(school.id)" ng-checked="StudentCtrl.school_exists_in_list(school.id)">
+                    {{ school.name }}
+                </md-checkbox>
+            </div>
+        </div>
+        <md-button type="submit" class="md-raised md-primary" ng-disabled="StudentCtrl.adding_student">Add Student</md-button>
+        <md-button type="button" ng-click="StudentCtrl.cancel()" ng-disabled="StudentCtrl.adding_student">Cancel</md-button>
+        <p ng-if="StudentCtrl.adding_student"><md-progress-circular md-mode="indeterminate" md-diameter="30"></md-progress-circular> Saving student...</p>
     </form>
 </md-content>
