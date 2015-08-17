@@ -32,7 +32,18 @@
                         }
                     }
                 })
-
+                .state('student_detaisl', {
+                    url: "/student/{student_id}",
+                    templateUrl: "views/student_details.html",
+                    controller: 'StudentController as StudentCtrl',
+                    resolve: {
+                        details: function(Student, $stateParams){
+                            return Student.details($stateParams.student_id).then(function(data){
+                                return data;
+                            });
+                        }
+                    }
+                })
                 ;
         });
 

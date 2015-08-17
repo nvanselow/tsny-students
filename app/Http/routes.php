@@ -29,6 +29,14 @@ Route::group(['prefix' => 'api'], function(){
         return Response::json(\Tsny\Models\School::find($school_id)->studentsWithSummary());
     });
 
+    Route::get('student/{student_id}', function($student_id){
+
+        $student = \Tsny\Models\Student::find($student_id);
+
+        return Response::json(['student' => $student->toArray(), 'details' => $student->getDetails()]);
+
+    });
+
     Route::post('student', function(){
         $student = Input::get('student', ['schools' => []]);
 

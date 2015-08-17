@@ -16,6 +16,46 @@ class Student extends Model
      */
     protected $fillable = ['first_name', 'last_name', 'nickname', 'email', 'primary_school'];
 
+    public function getDetails(){
+
+        $this->skills = DB::table('skills')->where('student_id', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->select([
+                'id',
+                'name',
+                'proficiency',
+                'current',
+                'note',
+                'updated_at'
+            ])
+            ->get();
+
+        $this->goals = DB::table('goals')->where('student_id', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->select([
+                'id',
+                'description',
+                'complete',
+                'updated_at'
+            ])
+            ->get();
+
+        $this->notes = DB::table('notes')->where('student_id', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->select([
+                'id',
+                'note',
+                'updated_at'
+            ])
+            ->get();
+
+        return [
+            'skills' => $this->skills,
+            'goals' => $this->goals,
+            'notes' => $this->notes
+        ];
+    }
+
     public function addSchool($school_id){
         if(!$school_id){
             throw new \Exception('No school id provided');

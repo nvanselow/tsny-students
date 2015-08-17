@@ -67405,9 +67405,27 @@ function ngMessageDirectiveFactory(restrict) {
                         }
                     }
                 })
-
+                .state('student_detaisl', {
+                    url: "/student/{student_id}",
+                    templateUrl: "views/student_details.html",
+                    controller: 'StudentController as StudentCtrl',
+                    resolve: {
+                        details: function(Student, $stateParams){
+                            return Student.details($stateParams.student_id).then(function(data){
+                                return data;
+                            });
+                        }
+                    }
+                })
                 ;
         });
+
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyConstants')
+        .constant('_', window._);
 
 }());
 (function () {
@@ -67632,6 +67650,25 @@ function ngMessageDirectiveFactory(restrict) {
 
             };
 
+            student.details = function(student_id){
+
+                return $http.get('api/student/' + student_id)
+                .then(function(result){
+                    //Success
+                    return {
+                        student: result.data.student,
+                        goals: result.data.details.goals,
+                        skills: result.data.details.skills,
+                        notes: result.data.details.notes
+                    };
+
+                }, function(result){
+                    //Error
+                    return null;
+                });
+
+            };
+
             return student;
         });
 
@@ -67654,6 +67691,18 @@ function ngMessageDirectiveFactory(restrict) {
 
     'use strict';
     angular.module('TsnyControllers')
+        .controller('StudentController', function(Student, $state, details){
+
+            var ctrl = this;
+
+            ctrl.student = details.student;
+            ctrl.goals = details.goals;
+            ctrl.skills = details.skills;
+            ctrl.notes = details.notes;
+
+
+
+        })
         .controller('AddStudentController', function($stateParams, schools, Student, $state){
 
             var ctrl = this;
@@ -67706,13 +67755,6 @@ function ngMessageDirectiveFactory(restrict) {
             };
 
         });
-
-}());
-(function () {
-
-    'use strict';
-    angular.module('TsnyConstants')
-        .constant('_', window._);
 
 }());
 //# sourceMappingURL=all.js.map

@@ -1,0 +1,33 @@
+<md-content layout-padding>
+    <h2>{{StudentCtrl.student.first_name}} {{StudentCtrl.student.last_name}} <span ng-if="StudentCtrl.student.nickname && StudentCtrl.student.nickname.length">({{StudentCtrl.student.nickname}})</span></h2>
+
+    <div layout-gt-md="row" layout-small="column" layout-md="column">
+        <div flex-gt-md="50" flex-sm="100" flex-md="100">
+            <h3>Skills</h3>
+            <ul>
+                <li ng-repeat="skill in StudentCtrl.skills track by skill.id">
+                    {{skill.name}} <span ng-if="skill.current">(Current Skill)</span>
+                </li>
+            </ul>
+
+
+            <md-divider show-sm show-md hide-gt-md></md-divider>
+        </div>
+        <div flex-gt-md="50" flex-sm="100" flex-md="100">
+            <h3>Goals</h3>
+            <ul>
+                <li ng-repeat="goal in StudentCtrl.goals track by goal.id">
+                    {{goal.description}} <span ng-if="goal.complete"> - <i class="fa fa-check-square"></i> Goal complete!</span>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <md-divider></md-divider>
+
+    <h3>Notes</h3>
+    <div ng-repeat="note in StudentCtrl.notes track by note.id" class="note">
+        <p>{{note.note}}</p>
+    </div>
+
+</md-content>

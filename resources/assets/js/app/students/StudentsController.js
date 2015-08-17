@@ -2,6 +2,18 @@
 
     'use strict';
     angular.module('TsnyControllers')
+        .controller('StudentController', function(Student, $state, details){
+
+            var ctrl = this;
+
+            ctrl.student = details.student;
+            ctrl.goals = details.goals;
+            ctrl.skills = details.skills;
+            ctrl.notes = details.notes;
+
+
+
+        })
         .controller('AddStudentController', function($stateParams, schools, Student, $state){
 
             var ctrl = this;
