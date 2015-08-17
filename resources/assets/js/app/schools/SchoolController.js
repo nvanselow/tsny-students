@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('SchoolsController', function(UserInfo, School){
+        .controller('SchoolsController', function(UserInfo, School, Note){
             var ctrl = this;
 
             ctrl.user_info = UserInfo;
@@ -34,6 +34,18 @@
                     .finally(function(){
                         ctrl.loading_students = false;
                     });
+            };
+
+            ctrl.addNote = function(student){
+                Note.addNote(student)
+                .then(function(result){
+                    //Success
+                    student.summary.most_recent_notes.unshift(result);
+
+                }, function(result){
+                    //Error
+
+                });
             };
 
             if(ctrl.user_info.current_school){

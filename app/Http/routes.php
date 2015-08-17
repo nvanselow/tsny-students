@@ -41,4 +41,17 @@ Route::group(['prefix' => 'api'], function(){
         return Response::json(['message' => 'Student added!']);
     });
 
+    Route::post('student/{student_id}/note', function($student_id){
+
+        $student = \Tsny\Models\Student::find($student_id);
+
+        if(!$student){
+            return Response::json(['message' => 'Could not find student'], 400);
+        }
+
+        $note = $student->addNote(Input::get('note'));
+
+        return Response::json(['note' => $note]);
+    });
+
 });

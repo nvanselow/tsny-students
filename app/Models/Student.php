@@ -43,6 +43,94 @@ class Student extends Model
         return $this;
     }
 
+    public function addSkill($skill) {
+
+        $skill['id'] = DB::table('skills')->insertGetId([
+            'student_id' => $this->id,
+            'name' => $skill['name'],
+            'proficiency' => $skill['proficiency'],
+            'current' => $skill['current'],
+            'note' => $skill['note'],
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString()
+        ]);
+
+        return $skill;
+    }
+
+    public function removeSkill($skill_id){
+
+        DB::table('skills')->where('student_id', $this->id)
+            ->where('id', $skill_id)
+            ->delete();
+
+        return $this;
+    }
+
+    public function addGoal($goal){
+
+        $goal['id'] = DB::table('goals')->insertGetId([
+            'student_id' => $this->id,
+            'description' => $goal['description'],
+            'complete' => $goal['complete'],
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString()
+
+        ]);
+
+        return $goal;
+    }
+
+    public function toggleGoalCompletion($goal_id){
+        $goal = DB::table('goals')->where('student_id', $this->id)->where('id', $goal_id)->first(['id', 'complete']);
+
+        if(!$goal) { throw new \Exception('Goal not found.'); }
+
+        $goal->complete = !$goal->complete;
+
+        DB::table('goals')->where('id', $goal_id)->update([
+            'complete' => $goal->complete,
+            'updated_at' => Carbon::now()->toDateTimeString()
+        ]);
+
+        return $goal;
+    }
+
+    public function removeGoal($goal_id){
+        DB::table('goals')->where('student_id', $this->id)
+            ->where('id', $goal_id)
+            ->delete();
+
+        return $this;
+    }
+
+    public function addNote($note){
+        $note['id'] = DB::table('notes')->insertGetId([
+            'student_id' => $this->id,
+            'note' => $note['note'],
+            'created_at' => Carbon::now()->toDateTimeString(),
+            'updated_at' => Carbon::now()->toDateTimeString()
+        ]);
+
+        return $note;
+    }
+
+    public function editNote($note){
+        DB::table('notes')->where('student_id', $this->id)->where('id', $note['id'])
+            ->update([
+                'note' => $note['note'],
+                'updated_at' => Carbon::now()->toDateTimeString()
+            ]);
+
+        return $this;
+    }
+
+    public function removeNote($note_id){
+        DB::table('notes')->where('student_id', $this->id)->where('id', $note_id)->delete();
+
+        return $this;
+    }
+
     public function getSummary(){
         return new StudentSummary($this->id);
     }

@@ -67413,6 +67413,140 @@ function ngMessageDirectiveFactory(restrict) {
 (function () {
 
     'use strict';
+    angular.module('TsnyControllers')
+        .controller('SchoolsController', function(UserInfo, School, Note){
+            var ctrl = this;
+
+            ctrl.user_info = UserInfo;
+
+            ctrl.loading = true;
+
+            //ctrl.schools = [{"id":1,"name":"Boston"},{"id":2,"name":"Chicago"},{"id":3,"name":"NYC"},{"id":4,"name":"DC"},{"id":5,"name":"Los Angeles"}];
+
+            ctrl.School = School;
+
+            ctrl.loading_students = false;
+
+            School.all()
+                .finally(function(){
+                    ctrl.loading = false;
+                });
+
+            ctrl.school_changed = function(){
+                ctrl.user_info.current_school.name = _.find(ctrl.School.schools, function(school){
+                    return school.id == ctrl.user_info.current_school.id;
+                }).name;
+
+                ctrl.update_student_list(ctrl.user_info.current_school.id);
+            };
+
+            ctrl.update_student_list = function(school_id){
+                ctrl.loading_students = true;
+                School.updateStudentsWithSummaries(school_id)
+                    .finally(function(){
+                        ctrl.loading_students = false;
+                    });
+            };
+
+            ctrl.addNote = function(student){
+                Note.addNote(student)
+                .then(function(result){
+                    //Success
+                    student.summary.most_recent_notes.unshift(result);
+
+                }, function(result){
+                    //Error
+
+                });
+            };
+
+            if(ctrl.user_info.current_school){
+                ctrl.update_student_list(ctrl.user_info.current_school.id);
+            }
+        })
+
+}());
+(function () {
+
+    'use strict';
+
+    angular.module('TsnyServices')
+        .service('Note', function($http, $mdDialog, $q){
+
+            var Note = {};
+
+            Note.addNote = function(student){
+
+                var deferred = $q.defer();
+
+                $mdDialog.show({
+                    controller: 'AddNoteDialogController as NoteCtrl',
+                    templateUrl: 'views/note_dialog.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals: {
+                        student: student
+                    }
+                })
+                    .then(function(result) {
+                        Note.postNote(result.student, result.note)
+                        .then(function(result){
+                            //Success
+                            deferred.resolve(result);
+                            return result;
+
+                        }, function(result){
+                            //Error
+                            deferred.reject(null);
+                            return null;
+                        });
+                    }, function() {
+                        deferred.reject(null);
+                    });
+
+
+                return deferred.promise;
+            };
+
+            Note.postNote = function(student, note){
+                return $http.post('api/student/' + student.id + '/note', {note:note})
+                .then(function(result){
+                    //Success
+                    return result.data.note;
+
+                }, function(result){
+                    //Error
+                    $q.reject(null);
+                });
+            };
+
+            return Note;
+
+        })
+        .controller('AddNoteDialogController', function($mdDialog, student){
+
+            var ctrl = this;
+
+            ctrl.student = student;
+
+            ctrl.note = {note:''};
+
+            ctrl.hide = function() {
+                $mdDialog.hide();
+            };
+            ctrl.cancel = function() {
+                $mdDialog.cancel();
+            };
+            ctrl.save = function() {
+                $mdDialog.hide({student: ctrl.student, note: ctrl.note});
+            };
+
+        });
+
+}());
+(function () {
+
+    'use strict';
     angular.module('TsnyServices')
         .service('School', function($http, $q){
 
@@ -67519,57 +67653,6 @@ function ngMessageDirectiveFactory(restrict) {
 (function () {
 
     'use strict';
-    angular.module('TsnyConstants')
-        .constant('_', window._);
-
-}());
-(function () {
-
-    'use strict';
-    angular.module('TsnyControllers')
-        .controller('SchoolsController', function(UserInfo, School){
-            var ctrl = this;
-
-            ctrl.user_info = UserInfo;
-
-            ctrl.loading = true;
-
-            //ctrl.schools = [{"id":1,"name":"Boston"},{"id":2,"name":"Chicago"},{"id":3,"name":"NYC"},{"id":4,"name":"DC"},{"id":5,"name":"Los Angeles"}];
-
-            ctrl.School = School;
-
-            ctrl.loading_students = false;
-
-            School.all()
-                .finally(function(){
-                    ctrl.loading = false;
-                });
-
-            ctrl.school_changed = function(){
-                ctrl.user_info.current_school.name = _.find(ctrl.School.schools, function(school){
-                    return school.id == ctrl.user_info.current_school.id;
-                }).name;
-
-                ctrl.update_student_list(ctrl.user_info.current_school.id);
-            };
-
-            ctrl.update_student_list = function(school_id){
-                ctrl.loading_students = true;
-                School.updateStudentsWithSummaries(school_id)
-                    .finally(function(){
-                        ctrl.loading_students = false;
-                    });
-            };
-
-            if(ctrl.user_info.current_school){
-                ctrl.update_student_list(ctrl.user_info.current_school.id);
-            }
-        })
-
-}());
-(function () {
-
-    'use strict';
     angular.module('TsnyControllers')
         .controller('AddStudentController', function($stateParams, schools, Student, $state){
 
@@ -67623,6 +67706,13 @@ function ngMessageDirectiveFactory(restrict) {
             };
 
         });
+
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyConstants')
+        .constant('_', window._);
 
 }());
 //# sourceMappingURL=all.js.map
