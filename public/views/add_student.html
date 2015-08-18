@@ -35,14 +35,17 @@
             </md-input-container>
             <md-input-container>
                 <label>Home School</label>
-                <md-select ng-model="StudentCtrl.student.primary_school">
+                <md-select ng-model="StudentCtrl.student.primary_school" ng-change="StudentCtrl.change_primary_school()">
                     <md-option ng-repeat="school in StudentCtrl.schools" value="{{school.id}}">{{school.name}}</md-option>
                 </md-select>
             </md-input-container>
         </div>
         <div layout-gt-md="row" layout-sm="column" layout-md="column" layout-align-gt-md="start center">
             <div ng-repeat="school in StudentCtrl.schools" flex>
-                <md-checkbox class="md-secondary" ng-click="StudentCtrl.toggle_school(school.id)" ng-checked="StudentCtrl.school_exists_in_list(school.id)">
+                <md-checkbox class="md-secondary"
+                             ng-click="StudentCtrl.toggle_school(school.id)"
+                             ng-checked="StudentCtrl.school_exists_in_list(school.id)"
+                             ng-disabled="school.id == StudentCtrl.student.primary_school">
                     {{ school.name }}
                 </md-checkbox>
             </div>

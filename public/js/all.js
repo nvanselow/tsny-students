@@ -67891,12 +67891,21 @@ function ngMessageDirectiveFactory(restrict) {
                 nickname: '',
                 email: '',
                 primary_school: $stateParams.school_id,
-                schools: []
+                schools: [Number($stateParams.school_id)]
+            };
+
+            ctrl.change_primary_school = function(){
+                var school_id = Number(ctrl.student.primary_school);
+                if(!ctrl.school_exists_in_list(school_id)){
+                    ctrl.student.schools.push(school_id);
+                }
             };
 
             ctrl.toggle_school = function (school_id) {
                 var list = ctrl.student.schools;
                 var item = school_id;
+
+                if(item == ctrl.student.primary_school) return;
 
                 var idx = list.indexOf(item);
                 if (idx > -1) list.splice(idx, 1);
