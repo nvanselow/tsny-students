@@ -3,7 +3,9 @@
         <md-toolbar ng-controller="SchoolsController as SchoolsCtrl">
             <div class="md-toolbar-tools">
                 <h2 hide-sm>
-                    <span>TSNY Student Notes</span>
+                    <a href="#/">
+                        TSNY Student Notes
+                    </a>
                 </h2>
                 <span layout-padding>
                     <span ng-if="SchoolsCtrl.loading"><md-progress-circular md-mode="indeterminate" class="md-accent" md-diameter="35"></md-progress-circular></span>

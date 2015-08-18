@@ -1,0 +1,34 @@
+<md-dialog aria-label="Add a goal for {{NoteCtrl.student.first_name}}" flex="80">
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Add a goal for <span ng-if="!GoalCtrl.student.nickname">{{GoalCtrl.student.first_name}}</span><span ng-if="GoalCtrl.student.nickname">{{GoalCtrl.student.nickname}}</span> </h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="GoalCtrl.cancel()" aria-label="cancel dialog">
+                    <i class="fa fa-close"></i>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content style="max-width:800px;max-height:810px; ">
+            <form name="goal_form">
+                <md-input-container>
+                    <label>Goal Description</label>
+                    <input type="text" ng-required="true" ng-maxlength="255" name="goal" ng-model="GoalCtrl.goal.description">
+                    <div ng-messages="goal_form.goal.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="md-maxlength">The goal description is too long.</div>
+                    </div>
+                </md-input-container>
+            </form>
+        </md-dialog-content>
+        <div class="md-actions" layout="row">
+            <span flex></span>
+            <md-button ng-click="GoalCtrl.save()">
+                Save
+            </md-button>
+            <md-button ng-click="GoalCtrl.cancel()" style="margin-right:20px;">
+                Cancel
+            </md-button>
+        </div>
+    </form>
+</md-dialog>

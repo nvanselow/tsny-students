@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('StudentController', function(Student, $state, details){
+        .controller('StudentController', function(Student, Note, Goal, Skill, $state, details){
 
             var ctrl = this;
 
@@ -11,7 +11,27 @@
             ctrl.skills = details.skills;
             ctrl.notes = details.notes;
 
+            ctrl.addNote = function(){
+                Note.addNote(ctrl.student)
+                    .then(function(result){
+                        //Success
+                        ctrl.notes.unshift(result);
+                    });
+            };
 
+            ctrl.addGoal = function(){
+                Goal.addGoal(ctrl.student)
+                    .then(function(result){
+                        ctrl.goals.unshift(result);
+                    });
+            };
+
+            ctrl.addSkill = function(){
+                Skill.addSkill(ctrl.student)
+                    .then(function(result){
+                        ctrl.skills.unshift(result);
+                    });
+            };
 
         })
         .controller('AddStudentController', function($stateParams, schools, Student, $state){

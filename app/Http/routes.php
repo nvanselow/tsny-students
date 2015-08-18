@@ -62,4 +62,29 @@ Route::group(['prefix' => 'api'], function(){
         return Response::json(['note' => $note]);
     });
 
+    Route::post('student/{student_id}/goal', function($student_id){
+
+        $student = \Tsny\Models\Student::find($student_id);
+        if(!$student){
+            return Response::json(['message' => 'Could not find student'], 400);
+        }
+
+        $goal = $student->addGoal(Input::get('goal'));
+
+        return Response::json(['goal' => $goal]);
+
+    });
+
+    Route::post('student/{student_id}/skill', function($student_id){
+        $student = \Tsny\Models\Student::find($student_id);
+        if(!$student){
+            return Response::json(['message' => 'Could not find student'], 400);
+        }
+
+        $skill = $student->addSkill(Input::get('skill'));
+
+        return Response::json(['skill' => $skill]);
+    });
+
+
 });

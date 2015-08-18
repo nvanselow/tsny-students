@@ -10,7 +10,7 @@ class StudentSummary {
     public $current_skills = [];
     public $most_recent_notes = [];
 
-    private $recent_notes_limit = 1;
+    private $recent_notes_limit = 2;
 
     public function __construct($student_id){
         return $this->get($student_id);

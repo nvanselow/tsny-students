@@ -3,7 +3,8 @@
 
     <div layout-gt-md="row" layout-small="column" layout-md="column">
         <div flex-gt-md="50" flex-sm="100" flex-md="100">
-            <h3>Skills</h3>
+            <h3>Skills <md-button ng-click="StudentCtrl.addSkill()" class="md-fab md-mini md-primary" aria-label="Add Skill" ><i class="fa fa-plus"></i></md-button></h3>
+            <p ng-if="!StudentCtrl.skills.length">No skills yet!</p>
             <ul>
                 <li ng-repeat="skill in StudentCtrl.skills track by skill.id">
                     {{skill.name}} <span ng-if="skill.current">(Current Skill)</span>
@@ -14,7 +15,8 @@
             <md-divider show-sm show-md hide-gt-md></md-divider>
         </div>
         <div flex-gt-md="50" flex-sm="100" flex-md="100">
-            <h3>Goals</h3>
+            <h3>Goals <md-button ng-click="StudentCtrl.addGoal()" class="md-fab md-mini md-primary" aria-label="Add Skill" ><i class="fa fa-plus"></i></md-button></h3>
+            <p ng-if="!StudentCtrl.goals.length">No goals yet!</p>
             <ul>
                 <li ng-repeat="goal in StudentCtrl.goals track by goal.id">
                     {{goal.description}} <span ng-if="goal.complete"> - <i class="fa fa-check-square"></i> Goal complete!</span>
@@ -25,7 +27,11 @@
     </div>
     <md-divider></md-divider>
 
-    <h3>Notes</h3>
+    <h3>
+        Notes
+        <md-button class="md-primary" ng-click="StudentCtrl.addNote()"><i class="fa fa-plus-square"></i> Add Note </md-button>
+    </h3>
+    <p ng-if="!StudentCtrl.notes.length">No notes yet!</p>
     <div ng-repeat="note in StudentCtrl.notes track by note.id" class="note">
         <p>{{note.note}}</p>
     </div>

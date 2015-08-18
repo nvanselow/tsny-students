@@ -67489,6 +67489,84 @@ function ngMessageDirectiveFactory(restrict) {
     'use strict';
 
     angular.module('TsnyServices')
+        .service('Goal', function($http, $mdDialog, $q){
+
+            var Goal = {};
+
+            Goal.addGoal = function(student){
+
+                var deferred = $q.defer();
+
+                $mdDialog.show({
+                    controller: 'AddGoalDialogController as GoalCtrl',
+                    templateUrl: 'views/goal_dialog.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals: {
+                        student: student
+                    }
+                })
+                    .then(function(result) {
+                        Goal.postGoal(result.student, result.goal)
+                        .then(function(result){
+                            //Success
+                            deferred.resolve(result);
+                            return result;
+
+                        }, function(result){
+                            //Error
+                            deferred.reject(null);
+                            return null;
+                        });
+                    }, function() {
+                        deferred.reject(null);
+                    });
+
+
+                return deferred.promise;
+            };
+
+            Goal.postGoal = function(student, goal){
+                return $http.post('api/student/' + student.id + '/goal', {goal:goal})
+                .then(function(result){
+                    //Success
+                    return result.data.goal;
+
+                }, function(result){
+                    //Error
+                    $q.reject(null);
+                });
+            };
+
+            return Goal;
+
+        })
+        .controller('AddGoalDialogController', function($mdDialog, student){
+
+            var ctrl = this;
+
+            ctrl.student = student;
+
+            ctrl.goal = {description:'', complete:false};
+
+            ctrl.hide = function() {
+                $mdDialog.hide();
+            };
+            ctrl.cancel = function() {
+                $mdDialog.cancel();
+            };
+            ctrl.save = function() {
+                $mdDialog.hide({student: ctrl.student, goal: ctrl.goal});
+            };
+
+        });
+
+}());
+(function () {
+
+    'use strict';
+
+    angular.module('TsnyServices')
         .service('Note', function($http, $mdDialog, $q){
 
             var Note = {};
@@ -67640,6 +67718,84 @@ function ngMessageDirectiveFactory(restrict) {
 (function () {
 
     'use strict';
+
+    angular.module('TsnyServices')
+        .service('Skill', function($http, $mdDialog, $q){
+
+            var Skill = {};
+
+            Skill.addSkill = function(student){
+
+                var deferred = $q.defer();
+
+                $mdDialog.show({
+                    controller: 'AddSkillDialogController as SkillCtrl',
+                    templateUrl: 'views/skill_dialog.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose:true,
+                    locals: {
+                        student: student
+                    }
+                })
+                    .then(function(result) {
+                        Skill.postSkill(result.student, result.skill)
+                        .then(function(result){
+                            //Success
+                            deferred.resolve(result);
+                            return result;
+
+                        }, function(result){
+                            //Error
+                            deferred.reject(null);
+                            return null;
+                        });
+                    }, function() {
+                        deferred.reject(null);
+                    });
+
+
+                return deferred.promise;
+            };
+
+            Skill.postSkill = function(student, skill){
+                return $http.post('api/student/' + student.id + '/skill', {skill:skill})
+                .then(function(result){
+                    //Success
+                    return result.data.skill;
+
+                }, function(result){
+                    //Error
+                    $q.reject(null);
+                });
+            };
+
+            return Skill;
+
+        })
+        .controller('AddSkillDialogController', function($mdDialog, student){
+
+            var ctrl = this;
+
+            ctrl.student = student;
+
+            ctrl.skill = {name:'', proficiency:0, current:false, note:''};
+
+            ctrl.hide = function() {
+                $mdDialog.hide();
+            };
+            ctrl.cancel = function() {
+                $mdDialog.cancel();
+            };
+            ctrl.save = function() {
+                $mdDialog.hide({student: ctrl.student, skill: ctrl.skill});
+            };
+
+        });
+
+}());
+(function () {
+
+    'use strict';
     angular.module('TsnyServices')
         .service('Student', function($http){
             var student = {};
@@ -67691,7 +67847,7 @@ function ngMessageDirectiveFactory(restrict) {
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('StudentController', function(Student, $state, details){
+        .controller('StudentController', function(Student, Note, Goal, Skill, $state, details){
 
             var ctrl = this;
 
@@ -67700,7 +67856,27 @@ function ngMessageDirectiveFactory(restrict) {
             ctrl.skills = details.skills;
             ctrl.notes = details.notes;
 
+            ctrl.addNote = function(){
+                Note.addNote(ctrl.student)
+                    .then(function(result){
+                        //Success
+                        ctrl.notes.unshift(result);
+                    });
+            };
 
+            ctrl.addGoal = function(){
+                Goal.addGoal(ctrl.student)
+                    .then(function(result){
+                        ctrl.goals.unshift(result);
+                    });
+            };
+
+            ctrl.addSkill = function(){
+                Skill.addSkill(ctrl.student)
+                    .then(function(result){
+                        ctrl.skills.unshift(result);
+                    });
+            };
 
         })
         .controller('AddStudentController', function($stateParams, schools, Student, $state){
