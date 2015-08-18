@@ -25,11 +25,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="student_details.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resources/views/html/student_details.html">
+      <file leaf-file-name="students.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/resources/views/html/students.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7076023" vertical-offset="132" max-vertical-offset="660">
-              <caret line="33" column="49" selection-start-line="33" selection-start-column="49" selection-end-line="33" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.20467836" vertical-offset="0" max-vertical-offset="810">
+              <caret line="7" column="180" selection-start-line="7" selection-start-column="180" selection-end-line="7" selection-end-column="180" />
               <folding />
             </state>
           </provider>
@@ -78,7 +78,6 @@
         <option value="$PROJECT_DIR$/resources/assets/js/app/schools/SchoolController.js" />
         <option value="$PROJECT_DIR$/public/views/student_details.html" />
         <option value="$PROJECT_DIR$/resources/assets/js/app/app.js" />
-        <option value="$PROJECT_DIR$/resources/views/html/students.html" />
         <option value="$PROJECT_DIR$/resources/assets/js/app/services/Student.js" />
         <option value="$PROJECT_DIR$/app/Models/Student.php" />
         <option value="$PROJECT_DIR$/resources/assets/sass/app.scss" />
@@ -91,6 +90,7 @@
         <option value="$PROJECT_DIR$/resources/views/html/skill_dialog.html" />
         <option value="$PROJECT_DIR$/app/CustomObjects/StudentSummary.php" />
         <option value="$PROJECT_DIR$/resources/views/html/student_details.html" />
+        <option value="$PROJECT_DIR$/resources/views/html/students.html" />
       </list>
     </option>
   </component>
@@ -464,7 +464,7 @@
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32917705" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32917705" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -14579,27 +14579,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/html/students.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.374269" vertical-offset="0" max-vertical-offset="795">
-          <caret line="47" column="13" selection-start-line="47" selection-start-column="13" selection-end-line="47" selection-end-column="13" />
-          <folding>
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-            <marker date="1439848623000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/assets/js/app/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.36312848" vertical-offset="0" max-vertical-offset="825">
@@ -14948,8 +14927,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/html/student_details.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7076023" vertical-offset="132" max-vertical-offset="660">
-          <caret line="33" column="49" selection-start-line="33" selection-start-column="49" selection-end-line="33" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.61988306" vertical-offset="132" max-vertical-offset="660">
+          <caret line="30" column="13" selection-start-line="30" selection-start-column="13" selection-end-line="30" selection-end-column="13" />
+          <folding>
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+            <marker date="1439863734000" expanded="true" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/html/students.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.20467836" vertical-offset="0" max-vertical-offset="810">
+          <caret line="7" column="180" selection-start-line="7" selection-start-column="180" selection-end-line="7" selection-end-column="180" />
           <folding />
         </state>
       </provider>
