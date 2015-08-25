@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('AuthController', function(Auth, $state){
+        .controller('AuthController', ['Auth', '$state', function(Auth, $state){
 
             var ctrl = this;
 
@@ -20,6 +20,6 @@
                 Auth.logout();
             };
 
-        });
+        }]);
 
 }());

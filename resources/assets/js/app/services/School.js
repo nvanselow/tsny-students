@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyServices')
-        .service('School', function($http, $q){
+        .service('School', ['$http', '$q', function($http, $q){
 
             var school = {};
 
@@ -70,6 +70,6 @@
 
             return school;
 
-        });
+        }]);
 
 }());

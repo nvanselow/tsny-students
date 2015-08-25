@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('SchoolsController', function(UserInfo, School, Note, Student, $state){
+        .controller('SchoolsController', ['UserInfo', 'School', 'Note', 'Student', '$state', function(UserInfo, School, Note, Student, $state){
             var ctrl = this;
 
             ctrl.user_info = UserInfo;
@@ -74,6 +74,6 @@
                 ctrl.selected_student = null;
             };
 
-        })
+        }])
 
 }());

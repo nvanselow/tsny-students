@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyServices')
-        .service('Student', function($http, $q){
+        .service('Student', ['$http', '$q', function($http, $q){
             var student = {};
 
             student.create = function(student){
@@ -51,6 +51,6 @@
             };
 
             return student;
-        });
+        }]);
 
 }());

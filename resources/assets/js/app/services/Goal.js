@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('TsnyServices')
-        .service('Goal', function($http, $mdDialog, $q){
+        .service('Goal', ['$http', '$mdDialog', '$q', function($http, $mdDialog, $q){
 
             var Goal = {};
 
@@ -66,8 +66,8 @@
 
             return Goal;
 
-        })
-        .controller('AddGoalDialogController', function($mdDialog, student){
+        }])
+        .controller('AddGoalDialogController', ['$mdDialog', 'student', function($mdDialog, student){
 
             var ctrl = this;
 
@@ -85,6 +85,6 @@
                 $mdDialog.hide({student: ctrl.student, goal: ctrl.goal});
             };
 
-        });
+        }]);
 
 }());

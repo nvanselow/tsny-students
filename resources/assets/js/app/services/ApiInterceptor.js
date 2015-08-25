@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyServices')
-        .service('ApiInterceptor', function($window){
+        .service('ApiInterceptor', ['$window', function($window){
             var interceptor = {};
 
             interceptor.responseError = function(response) {
@@ -19,6 +19,6 @@
             };
 
             return interceptor;
-        })
+        }])
 
 }());

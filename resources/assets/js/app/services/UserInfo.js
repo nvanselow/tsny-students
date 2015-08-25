@@ -3,7 +3,7 @@
     'use strict';
 
     angular.module('TsnyServices')
-        .service('UserInfo', function(Auth){
+        .service('UserInfo', ['Auth', function(Auth){
             var user_info = {};
 
             user_info.current_school = {"id":1,"name":"Boston"};
@@ -13,6 +13,6 @@
             };
 
             return user_info;
-        })
+        }])
 
 }());

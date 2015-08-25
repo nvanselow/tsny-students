@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('StudentController', function(Student, Note, Goal, Skill, $state, details){
+        .controller('StudentController', ['Student', 'Note', 'Goal', 'Skill', '$state', 'details', function(Student, Note, Goal, Skill, $state, details){
 
             var ctrl = this;
 
@@ -41,8 +41,8 @@
                 Skill.toggleCurrentSkill(skill);
             }
 
-        })
-        .controller('AddStudentController', function($stateParams, schools, Student, $state){
+        }])
+        .controller('AddStudentController', ['$stateParams', 'schools', 'Student', '$state', function($stateParams, schools, Student, $state){
 
             var ctrl = this;
 
@@ -99,9 +99,9 @@
             };
 
             ctrl.cancel = function(){
-
+                $state.go('home');
             };
 
-        });
+        }]);
 
 }());

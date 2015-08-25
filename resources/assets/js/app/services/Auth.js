@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyServices')
-        .service('Auth', function($http, $window){
+        .service('Auth', ['$http', '$window', function($http, $window){
 
             var auth = {};
 
@@ -26,6 +26,6 @@
 
             return auth;
 
-        });
+        }]);
 
 }());

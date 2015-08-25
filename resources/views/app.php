@@ -1,4 +1,4 @@
-<div ng-app="TsnyApp">
+<div ng-app="TsnyApp" ng-strict-di>
     <div layout="column" layout-fill role="main">
         <md-toolbar ng-controller="SchoolsController as SchoolsCtrl">
             <div class="md-toolbar-tools">
@@ -42,7 +42,7 @@
                     </md-autocomplete>
                 </span>
                 <span flex></span>
-                <span>{{SchoolsCtrl.user_info.current_school.id}} - {{SchoolsCtrl.user_info.current_school.name}}</span>
+<!--                <span>{{SchoolsCtrl.user_info.current_school.id}} - {{SchoolsCtrl.user_info.current_school.name}}</span>-->
                 <md-button ng-click="SchoolsCtrl.user_info.logout()">Logout</md-button>
             </div>
         </md-toolbar>
