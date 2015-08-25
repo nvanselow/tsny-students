@@ -15,7 +15,16 @@ Route::get('/', function () {
     return view('home');
 });
 
-Route::group(['prefix' => 'api'], function(){
+// Authentication routes...
+Route::get('auth/login', 'Auth\AuthController@getLogin');
+Route::post('auth/login', 'Auth\AuthController@postLogin');
+Route::get('auth/logout', 'Auth\AuthController@getLogout');
+
+// Registration routes...
+Route::get('auth/register', 'Auth\AuthController@getRegister');
+Route::post('auth/register', 'Auth\AuthController@postRegister');
+
+Route::group(['prefix' => 'api', 'middleware' => 'auth'], function(){
 
     Route::get('schools', function(){
         return Response::json(\Tsny\Models\School::all(['id','name']));
@@ -86,5 +95,46 @@ Route::group(['prefix' => 'api'], function(){
         return Response::json(['skill' => $skill]);
     });
 
+    Route::post('goal/{goal_id}/toggle', function($goal_id){
+        $goal = \Tsny\Models\Goal::where('id', $goal_id)->select('id', 'complete')->first();
+
+        $goal->complete = !$goal->complete;
+
+        if($goal->save()){
+            return Response::json($goal);
+        } else {
+            return Response::json(['message' => 'There was a problem updating the goal.'], 400);
+        }
+    });
+
+    Route::post('skill/{skill_id}/toggle', function($skill_id){
+        $skill = \Tsny\Models\Skill::where('id', $skill_id)->select('id', 'current')->first();
+
+        $skill->current = !$skill->current;
+
+        if($skill->save()){
+            return Response::json($skill);
+        }
+
+        return Response::json(['message' => 'There was a problem updating the skill.'], 400);
+    });
+
+    Route::get('student/search/{search_text}', function($search_text){
+        $students = \Tsny\Models\Student::where('first_name', 'LIKE', '%'.$search_text.'%')
+            ->orWhere('last_name', 'LIKE', '%'.$search_text.'%')
+            ->orWhere('nickname', 'LIKE', '%'.$search_text.'%')
+            ->join('schools', 'schools.id', '=', 'students.primary_school')
+            ->select([
+                'students.id',
+                'first_name',
+                'last_name',
+                'nickname',
+                'schools.name AS primary_school_name'
+            ])
+            ->get();
+
+        return Response::json($students);
+
+    });
 
 });

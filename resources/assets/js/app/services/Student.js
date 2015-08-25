@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyServices')
-        .service('Student', function($http){
+        .service('Student', function($http, $q){
             var student = {};
 
             student.create = function(student){
@@ -28,6 +28,26 @@
                     return null;
                 });
 
+            };
+
+            student.search = function(search_text){
+
+                var deferred = $q.defer();
+
+                if(!search_text || !search_text.length){
+                    deferred.reject([]);
+                } else {
+                    $http.get('api/student/search/' + search_text)
+                        .then(function(result){
+                            //Success
+                            deferred.resolve(result.data);
+                        }, function(result){
+                            //Error
+                            deferred.reject(result);
+                        });
+                }
+
+                return deferred.promise;
             };
 
             return student;

@@ -1,0 +1,32 @@
+
+<div layout="row">
+    <div flex-gt-sm="50" offset-gt-sm="25">
+        <h1>Login</h1>
+        <p>Please login to use this web app.</p>
+        <form ng-submit="AuthCtrl.login()" name="auth_form" >
+            <md-input-container>
+                <label>Email</label>
+                <input type="email" ng-required="true" ng-maxlength="255" name="user_email" ng-model="AuthCtrl.user.email">
+                <div ng-messages="auth_form.user_email.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="md-maxlength">This skill name is too long.</div>
+                    <div ng-message="email">This must be a valid email.</div>
+                </div>
+            </md-input-container>
+            <md-input-container>
+                <label>Password</label>
+                <input type="password" ng-required="true" ng-maxlength="255" name="user_password" ng-model="AuthCtrl.user.password">
+                <div ng-messages="auth_form.user_password.$error">
+                    <div ng-message="required">This is required.</div>
+                    <div ng-message="md-maxlength">This skill name is too long.</div>
+                </div>
+            </md-input-container>
+            <md-button type="submit">Login</md-button>
+            <md-button type="button">Register</md-button>
+            <pre>
+                {{AuthCtrl.user}}
+            </pre>
+        </form>
+    </div>
+
+</div>

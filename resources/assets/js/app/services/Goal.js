@@ -52,6 +52,18 @@
                 });
             };
 
+            Goal.toggleGoal = function(goal){
+                return $http.post('api/goal/' + goal.id + '/toggle', {})
+                .then(function(result){
+                    //Success
+                    goal.complete = result.data.complete;
+                    return goal;
+                }, function(result){
+                    //Error
+                    return result;
+                });
+            };
+
             return Goal;
 
         })

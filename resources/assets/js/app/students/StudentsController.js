@@ -33,6 +33,14 @@
                     });
             };
 
+            ctrl.ToggleGoal = function(goal){
+                Goal.toggleGoal(goal);
+            };
+
+            ctrl.ToggleCurrentSkill = function(skill){
+                Skill.toggleCurrentSkill(skill);
+            }
+
         })
         .controller('AddStudentController', function($stateParams, schools, Student, $state){
 

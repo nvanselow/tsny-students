@@ -52,6 +52,18 @@
                 });
             };
 
+            Skill.toggleCurrentSkill = function(skill){
+                return $http.post('api/skill/' + skill.id + '/toggle', {})
+                .then(function(result){
+                    //Success
+                    skill.current = result.data.current;
+                    return skill;
+                }, function(result){
+                    //Error
+                    return result;
+                });
+            };
+
             return Skill;
 
         })

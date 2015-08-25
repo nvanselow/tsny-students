@@ -2,7 +2,7 @@
 
 namespace Tsny\Http\Controllers\Auth;
 
-use Tsny\User;
+use Tsny\Models\User;
 use Validator;
 use Tsny\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -22,6 +22,8 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+
+    protected $redirectPath = '/';
 
     /**
      * Create a new authentication controller instance.
@@ -62,4 +64,6 @@ class AuthController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+
 }

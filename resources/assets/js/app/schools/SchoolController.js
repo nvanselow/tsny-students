@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('SchoolsController', function(UserInfo, School, Note){
+        .controller('SchoolsController', function(UserInfo, School, Note, Student, $state){
             var ctrl = this;
 
             ctrl.user_info = UserInfo;
@@ -51,6 +51,29 @@
             if(ctrl.user_info.current_school){
                 ctrl.update_student_list(ctrl.user_info.current_school.id);
             }
+
+            //Search functionality
+            ctrl.selected_student = null;
+            ctrl.student_search_results = [];
+            ctrl.student_search_text = '';
+
+            ctrl.SearchForStudent = function(search_text){
+                Student.search(search_text)
+                .then(function(result){
+                    //Success
+                    ctrl.student_search_results = result;
+                    return result;
+                });
+            };
+
+            ctrl.SelectedStudentChanged = function(student){
+                if(!student) return;
+
+                $state.go('student_details', {student_id: student.id});
+                ctrl.student_search_text = '';
+                ctrl.selected_student = null;
+            };
+
         })
 
 }());

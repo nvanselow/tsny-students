@@ -67375,7 +67375,7 @@ function ngMessageDirectiveFactory(restrict) {
 
     'use strict';
     angular.module('TsnyApp', ['ngMaterial', 'ui.router', 'ngMessages', 'TsnyControllers', 'TsnyConstants', 'TsnyServices'])
-        .config(function($mdThemingProvider, $urlRouterProvider, $stateProvider) {
+        .config(function($mdThemingProvider, $urlRouterProvider, $stateProvider, $httpProvider) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue')
                 .accentPalette('amber')
@@ -67393,6 +67393,11 @@ function ngMessageDirectiveFactory(restrict) {
                     templateUrl: "views/students.html",
                     controller: 'SchoolsController as SchoolsCtrl'
                 })
+                .state('login', {
+                    url: "/login",
+                    templateUrl: "views/login.html",
+                    controller: 'AuthController as AuthCtrl'
+                })
                 .state('add_student', {
                     url: "/schools/{school_id}/add-student",
                     templateUrl: "views/add_student.html",
@@ -67405,7 +67410,7 @@ function ngMessageDirectiveFactory(restrict) {
                         }
                     }
                 })
-                .state('student_detaisl', {
+                .state('student_details', {
                     url: "/student/{student_id}",
                     templateUrl: "views/student_details.html",
                     controller: 'StudentController as StudentCtrl',
@@ -67418,6 +67423,8 @@ function ngMessageDirectiveFactory(restrict) {
                     }
                 })
                 ;
+
+            $httpProvider.interceptors.push('ApiInterceptor');
         });
 
 }());
@@ -67432,7 +67439,32 @@ function ngMessageDirectiveFactory(restrict) {
 
     'use strict';
     angular.module('TsnyControllers')
-        .controller('SchoolsController', function(UserInfo, School, Note){
+        .controller('AuthController', function(Auth, $state){
+
+            var ctrl = this;
+
+            ctrl.user = {email: '', password: '', remember: true};
+
+            ctrl.login = function(){
+                Auth.login(ctrl.user)
+                .then(function(result){
+                    //Success
+                    $state.go('home');
+                });
+            };
+
+            ctrl.logout = function(){
+                Auth.logout();
+            };
+
+        });
+
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyControllers')
+        .controller('SchoolsController', function(UserInfo, School, Note, Student, $state){
             var ctrl = this;
 
             ctrl.user_info = UserInfo;
@@ -67481,7 +67513,75 @@ function ngMessageDirectiveFactory(restrict) {
             if(ctrl.user_info.current_school){
                 ctrl.update_student_list(ctrl.user_info.current_school.id);
             }
+
+            //Search functionality
+            ctrl.selected_student = null;
+            ctrl.student_search_results = [];
+            ctrl.student_search_text = '';
+
+            ctrl.SearchForStudent = function(search_text){
+                Student.search(search_text)
+                .then(function(result){
+                    //Success
+                    ctrl.student_search_results = result;
+                    return result;
+                });
+            };
+
+            ctrl.SelectedStudentChanged = function(student){
+                if(!student) return;
+
+                $state.go('student_details', {student_id: student.id});
+                ctrl.student_search_text = '';
+                ctrl.selected_student = null;
+            };
+
         })
+
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyServices')
+        .service('ApiInterceptor', function(){
+            var interceptor = {};
+
+            interceptor.responseError = function(response) {
+                if (response.status === 401) {
+                    console.log('not logged in.')
+                }
+
+                if (response.state == 403) {
+                    console.log('unauthorized for that action')
+                }
+                return response;
+            };
+
+            return interceptor;
+        })
+
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyServices')
+        .service('Auth', function($http){
+
+            var auth = {};
+
+            auth.login = function(user){
+
+                return $http.post('api/login', {user: user});
+
+            };
+
+            auth.logout = function(){
+                return $http.get('api/logout');
+            };
+
+            return auth;
+
+        });
 
 }());
 (function () {
@@ -67535,6 +67635,18 @@ function ngMessageDirectiveFactory(restrict) {
                 }, function(result){
                     //Error
                     $q.reject(null);
+                });
+            };
+
+            Goal.toggleGoal = function(goal){
+                return $http.post('api/goal/' + goal.id + '/toggle', {})
+                .then(function(result){
+                    //Success
+                    goal.complete = result.data.complete;
+                    return goal;
+                }, function(result){
+                    //Error
+                    return result;
                 });
             };
 
@@ -67769,6 +67881,18 @@ function ngMessageDirectiveFactory(restrict) {
                 });
             };
 
+            Skill.toggleCurrentSkill = function(skill){
+                return $http.post('api/skill/' + skill.id + '/toggle', {})
+                .then(function(result){
+                    //Success
+                    skill.current = result.data.current;
+                    return skill;
+                }, function(result){
+                    //Error
+                    return result;
+                });
+            };
+
             return Skill;
 
         })
@@ -67797,7 +67921,7 @@ function ngMessageDirectiveFactory(restrict) {
 
     'use strict';
     angular.module('TsnyServices')
-        .service('Student', function($http){
+        .service('Student', function($http, $q){
             var student = {};
 
             student.create = function(student){
@@ -67823,6 +67947,26 @@ function ngMessageDirectiveFactory(restrict) {
                     return null;
                 });
 
+            };
+
+            student.search = function(search_text){
+
+                var deferred = $q.defer();
+
+                if(!search_text || !search_text.length){
+                    deferred.reject([]);
+                } else {
+                    $http.get('api/student/search/' + search_text)
+                        .then(function(result){
+                            //Success
+                            deferred.resolve(result.data);
+                        }, function(result){
+                            //Error
+                            deferred.reject(result);
+                        });
+                }
+
+                return deferred.promise;
             };
 
             return student;
@@ -67877,6 +68021,14 @@ function ngMessageDirectiveFactory(restrict) {
                         ctrl.skills.unshift(result);
                     });
             };
+
+            ctrl.ToggleGoal = function(goal){
+                Goal.toggleGoal(goal);
+            };
+
+            ctrl.ToggleCurrentSkill = function(skill){
+                Skill.toggleCurrentSkill(skill);
+            }
 
         })
         .controller('AddStudentController', function($stateParams, schools, Student, $state){

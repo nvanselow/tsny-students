@@ -2,7 +2,7 @@
 
     'use strict';
     angular.module('TsnyApp', ['ngMaterial', 'ui.router', 'ngMessages', 'TsnyControllers', 'TsnyConstants', 'TsnyServices'])
-        .config(function($mdThemingProvider, $urlRouterProvider, $stateProvider) {
+        .config(function($mdThemingProvider, $urlRouterProvider, $stateProvider, $httpProvider) {
             $mdThemingProvider.theme('default')
                 .primaryPalette('blue')
                 .accentPalette('amber')
@@ -20,6 +20,11 @@
                     templateUrl: "views/students.html",
                     controller: 'SchoolsController as SchoolsCtrl'
                 })
+                .state('login', {
+                    url: "/login",
+                    templateUrl: "views/login.html",
+                    controller: 'AuthController as AuthCtrl'
+                })
                 .state('add_student', {
                     url: "/schools/{school_id}/add-student",
                     templateUrl: "views/add_student.html",
@@ -32,7 +37,7 @@
                         }
                     }
                 })
-                .state('student_detaisl', {
+                .state('student_details', {
                     url: "/student/{student_id}",
                     templateUrl: "views/student_details.html",
                     controller: 'StudentController as StudentCtrl',
@@ -45,6 +50,8 @@
                     }
                 })
                 ;
+
+            $httpProvider.interceptors.push('ApiInterceptor');
         });
 
 }());
