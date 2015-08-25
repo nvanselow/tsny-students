@@ -147,7 +147,7 @@ return [
         /*
          * Vendor Service Providers...
          */
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+//        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
     ],
 
