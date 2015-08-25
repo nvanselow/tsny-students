@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var elixir = require('laravel-elixir');
 var minifyCss = require('gulp-minify-css');
 var uglify = require('gulp-uglify');
+var minifyHTML = require('gulp-minify-html');
 
 /*
  |--------------------------------------------------------------------------
@@ -86,4 +87,15 @@ gulp.task('minify_js', function(){
         .pipe(gulp.dest('public/js'));
 });
 
-gulp.task('production', ['minify_css', 'minify_js']);
+gulp.task('minify_html', function(){
+    var opts = {
+        conditionals: true,
+        spare:true
+    };
+
+    return gulp.src('public/views/*.html')
+        .pipe(minifyHTML(opts))
+        .pipe(gulp.dest('public/views'));
+});
+
+gulp.task('production', ['minify_css', 'minify_js', 'minify_html']);
