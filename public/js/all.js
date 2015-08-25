@@ -67431,13 +67431,6 @@ function ngMessageDirectiveFactory(restrict) {
 (function () {
 
     'use strict';
-    angular.module('TsnyConstants')
-        .constant('_', window._);
-
-}());
-(function () {
-
-    'use strict';
     angular.module('TsnyControllers')
         .controller('AuthController', function(Auth, $state){
 
@@ -67458,6 +67451,13 @@ function ngMessageDirectiveFactory(restrict) {
             };
 
         });
+
+}());
+(function () {
+
+    'use strict';
+    angular.module('TsnyConstants')
+        .constant('_', window._);
 
 }());
 (function () {
@@ -67543,16 +67543,18 @@ function ngMessageDirectiveFactory(restrict) {
 
     'use strict';
     angular.module('TsnyServices')
-        .service('ApiInterceptor', function(){
+        .service('ApiInterceptor', function($window){
             var interceptor = {};
 
             interceptor.responseError = function(response) {
                 if (response.status === 401) {
-                    console.log('not logged in.')
+                    console.log('not logged in.');
+                    $window.location.href = '/auth/login';
                 }
 
                 if (response.state == 403) {
-                    console.log('unauthorized for that action')
+                    console.log('unauthorized for that action');
+                    $window.location.href = '/auth/login';
                 }
                 return response;
             };
@@ -67565,7 +67567,7 @@ function ngMessageDirectiveFactory(restrict) {
 
     'use strict';
     angular.module('TsnyServices')
-        .service('Auth', function($http){
+        .service('Auth', function($http, $window){
 
             var auth = {};
 
@@ -67576,7 +67578,15 @@ function ngMessageDirectiveFactory(restrict) {
             };
 
             auth.logout = function(){
-                return $http.get('api/logout');
+                return $http.get('/auth/logout')
+                .then(function(result){
+                    //Success
+                    $window.location.href = '/auth/login';
+
+                }, function(result){
+                    //Error
+
+                });
             };
 
             return auth;
@@ -67978,10 +67988,14 @@ function ngMessageDirectiveFactory(restrict) {
     'use strict';
 
     angular.module('TsnyServices')
-        .service('UserInfo', function(){
+        .service('UserInfo', function(Auth){
             var user_info = {};
 
-            user_info.current_school = {"id":2,"name":"Chicago"};
+            user_info.current_school = {"id":1,"name":"Boston"};
+
+            user_info.logout = function(){
+                Auth.logout();
+            };
 
             return user_info;
         })

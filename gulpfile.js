@@ -58,3 +58,15 @@ elixir(function(mix) {
 elixir(function(mix){
     mix.scriptsIn('resources/assets/js', 'public/js');
 });
+
+//Copy bootstrap
+elixir(function(mix){
+    mix.copy('node_modules/bootstrap/dist/css/bootstrap.min.css', 'public/css/bootstrap.css');
+    mix.copy('node_modules/bootstrap/dist/js/bootstrap.min.js', 'public/js/bootstrap.js');
+});
+
+//Copy sweet alert
+elixir(function(mix){
+    mix.copy('node_modules/sweetalert/dist/sweetalert.css', 'public/css/sweetalert.css');
+    mix.copy('node_modules/sweetalert/dist/sweetalert.min.js', 'public/js/sweetalert.js');
+});

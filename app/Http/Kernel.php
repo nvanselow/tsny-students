@@ -29,5 +29,6 @@ class Kernel extends HttpKernel
         'auth' => \Tsny\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'guest' => \Tsny\Http\Middleware\RedirectIfAuthenticated::class,
+        'registration_code' => \Tsny\Http\Middleware\CheckRegistrationCode::class,
     ];
 }

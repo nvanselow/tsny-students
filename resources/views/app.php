@@ -43,7 +43,7 @@
                 </span>
                 <span flex></span>
                 <span>{{SchoolsCtrl.user_info.current_school.id}} - {{SchoolsCtrl.user_info.current_school.name}}</span>
-                <md-button href="/auth/logout">Logout</md-button>
+                <md-button ng-click="SchoolsCtrl.user_info.logout()">Logout</md-button>
             </div>
         </md-toolbar>
 
