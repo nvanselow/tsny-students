@@ -86,6 +86,4 @@ class SchoolsTest extends TestCase {
         $this->get('/api/schools/1/students/summaries');
     }
 
-
-
 }

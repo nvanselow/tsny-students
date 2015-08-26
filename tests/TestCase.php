@@ -26,6 +26,10 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     public function setUp(){
         parent::setUp();
 
+        $user = factory('Tsny\Models\User')->create();
+
+        $this->be($user);
+
 //        Artisan::call('migrate:refresh');
 //        Artisan::call('db:seed', ['--class'=>'TestSeeder']);
     }

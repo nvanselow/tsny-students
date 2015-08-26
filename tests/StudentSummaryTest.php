@@ -17,7 +17,7 @@ class StudentSummaryTest extends TestCase {
 
         $this->assertEquals(2, count($summary->current_goals));
         $this->assertEquals(1, count($summary->current_skills));
-        $this->assertEquals(1, count($summary->most_recent_notes));
+        $this->assertEquals(2, count($summary->most_recent_notes));
 
         $this->assertEquals('most recent note', $summary->most_recent_notes[0]->note);
 
