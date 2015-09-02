@@ -34,7 +34,7 @@ class StudentController extends Controller
         return Response::json($students);
     }
 
-    public function create(){
+    public function create(Requests\CreateStudentRequest $request){
         $student = Input::get('student', ['schools' => []]);
 
         $new_student = Student::create(array_except($student, 'schools'));
@@ -46,7 +46,7 @@ class StudentController extends Controller
         return Response::json(['message' => 'Student added!']);
     }
 
-    public function addNote($student_id){
+    public function addNote($student_id, Requests\CreateNoteRequest $request){
         $student = Student::find($student_id);
 
         if(!$student){
@@ -58,7 +58,7 @@ class StudentController extends Controller
         return Response::json(['note' => $note]);
     }
 
-    public function addGoal($student_id){
+    public function addGoal($student_id, Requests\CreateGoalRequest $request){
         $student = Student::find($student_id);
         if(!$student){
             return Response::json(['message' => 'Could not find student'], 400);
@@ -69,7 +69,7 @@ class StudentController extends Controller
         return Response::json(['goal' => $goal]);
     }
 
-    public function addSkill($student_id){
+    public function addSkill($student_id, Requests\CreateSkillRequest $request){
         $student = Student::find($student_id);
         if(!$student){
             return Response::json(['message' => 'Could not find student'], 400);
