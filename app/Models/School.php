@@ -20,6 +20,7 @@ class School extends Model
                 'students.nickname',
                 'students.primary_school'
             ])
+            ->orderBy('students.last_name')
             ->get();
     }
 
